@@ -1,0 +1,20 @@
+name: Test and Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+      - run: go test -v ./...
+      - run: go build -o wl main.go
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wl-linux-x64
+          path: ./wl
+          if-no-files-found: error
